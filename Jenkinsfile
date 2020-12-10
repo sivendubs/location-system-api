@@ -6,14 +6,14 @@ pipeline {
 	    
     }
    stages {
-   	stage('SonarQube Analysis'){
+   /*	stage('SonarQube Analysis'){
         	steps {
                 	withSonarQubeEnv('Sonarqube') {
                     		sh "mvn -f locations-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
                     		script {
 		    			LAST_STARTED = env.STAGE_NAME
                     			timeout(time: 1, unit: 'HOURS') { 
-                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:locations-system-api > status.json"
+                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api > status.json"
                         			def json = readJSON file:'status.json'
                         			echo "${json.projectStatus}"
                         			if ("${json.projectStatus.status}" != "OK") {
@@ -26,7 +26,7 @@ pipeline {
                 }
 	}
        
-	   
+	*/   
       stage('Build') {
       		steps {
 	    		script {
