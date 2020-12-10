@@ -125,7 +125,7 @@ pipeline {
                         }
 		}
     }   
-    
+    */
     stage('Kill container') {
       		steps {
         		script {
@@ -133,7 +133,7 @@ pipeline {
           		    	sh 'docker rm -f locations-system-api'
         		}
       		}
-    	}*/
+    	}
    }
  /*  post {
         failure {
