@@ -37,8 +37,28 @@ pipeline {
 		    	} 
             	}    
       } 
-	   
       stage('Build image') {
+      		steps {
+        		script {
+			//        sh "docker stop location-system-api" 
+        		 //     	sh "docker rm location-system-api"
+			   	LAST_STARTED = env.STAGE_NAME
+				"docker build -t location-system-api:mule -f Dockerfile ."
+                	 
+                        }
+               }
+      }
+
+      stage('Run container') {
+      		steps {
+        		script {
+			     	LAST_STARTED = env.STAGE_NAME
+          		    	sh 'docker run -itd -p 8082:8081 --name location-system-api location-system-api:mule'
+				sh 'sleep 60'
+       			}
+		}
+     }	   
+    /*  stage('Build image') {
       		steps {
         		script {
 			          sh "docker stop location-system-api" 
@@ -58,7 +78,7 @@ pipeline {
 				sh 'sleep 60'
        			}
 		}
-     }
+     }*/
    	
      stage ('Munit Test'){
         	steps {
