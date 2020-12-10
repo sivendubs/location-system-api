@@ -9,7 +9,7 @@ pipeline {
    	stage('SonarQube Analysis'){
         	steps {
                 	withSonarQubeEnv('Sonarqube') {
-                    		sh "mvn -f locations-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
+                    		sh "mvn -f location-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
                     		script {
 		    			LAST_STARTED = env.STAGE_NAME
                     			timeout(time: 1, unit: 'HOURS') { 
@@ -32,7 +32,7 @@ pipeline {
 	    		script {
 				configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
 				LAST_STARTED = env.STAGE_NAME
-				sh "mvn -f locations-system-api/pom.xml -s $settings -Dkey=mule clean install  -DskipTests"     
+				sh "mvn -f location-system-api/pom.xml -s $settings -Dkey=mule clean install  -DskipTests"     
 				}	
 		    	} 
             	}    
@@ -65,7 +65,7 @@ pipeline {
 			script {
 				configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
 			   	LAST_STARTED = env.STAGE_NAME
-			   	sh "mvn -f locations-system-api/pom.xml -s $settings -Dkey=mule -Dhttp.port=8086 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
+			   	sh "mvn -f location-system-api/pom.xml -s $settings -Dkey=mule -Dhttp.port=8086 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
                                // sh "mvn -f location-system-api/pom.xml -Dhttp.port=8083 test"
 				}	
 			}		
@@ -98,8 +98,8 @@ pipeline {
 			script {
 		    		LAST_STARTED = env.STAGE_NAME
 		    		configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
-                    			sh "mvn -f locations-system-api/pom.xml -s $settings archetype:create-from-project"
-		    			sh "mvn -f locations-system-api/target/generated-sources/archetype/pom.xml -s $settings clean deploy -DaltSnapshotDeploymentRepository=nexus-snapshots::http://104.248.169.167:8081/repository/maven-snapshots/"
+                    			sh "mvn -f location-system-api/pom.xml -s $settings archetype:create-from-project"
+		    			sh "mvn -f location-system-api/target/generated-sources/archetype/pom.xml -s $settings clean deploy -DaltSnapshotDeploymentRepository=nexus-snapshots::http://104.248.169.167:8081/repository/maven-snapshots/"
                   		} 
 			}
               }   
@@ -110,7 +110,7 @@ pipeline {
 			script {
 				configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
 				LAST_STARTED = env.STAGE_NAME
-				sh 'mvn -f locations-system-api/pom.xml package deploy -DmuleDeploy -DskipTests -Danypoint.username=joji6 -Danypoint.password=Canadavisa25@ -DapplicationName=train-details-sapi -Dcloudhub.region=us-east-2'
+				sh 'mvn -f location-system-api/pom.xml package deploy -DmuleDeploy -DskipTests -Danypoint.username=joji6 -Danypoint.password=Canadavisa25@ -DapplicationName=location-details-sapi -Dcloudhub.region=us-east-2'
 				}
 			}
              	}
