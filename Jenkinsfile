@@ -9,11 +9,11 @@ pipeline {
    	stage('SonarQube Analysis'){
         	steps {
                 	withSonarQubeEnv('Sonarqube') {
-                    		sh "mvn -f train-details-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
+                    		sh "mvn -f location-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
                     		script {
 		    			LAST_STARTED = env.STAGE_NAME
                     			timeout(time: 1, unit: 'HOURS') { 
-                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:train-details-system-api > status.json"
+                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api > status.json"
                         			def json = readJSON file:'status.json'
                         			echo "${json.projectStatus}"
                         			if ("${json.projectStatus.status}" != "OK") {
@@ -31,7 +31,7 @@ pipeline {
       		steps {
 	    		script {
 				LAST_STARTED = env.STAGE_NAME
-				sh "mvn -f train-details-system-api/pom.xml  clean install  -DskipTests"     	
+				sh "mvn -f location-system-api/pom.xml  clean install  -DskipTests"     	
 		    	} 
             	}    
       } 
@@ -42,7 +42,7 @@ pipeline {
 			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
         		//   	sh "docker rm apiops-anypoint-jenkins-sapi"
 			   	LAST_STARTED = env.STAGE_NAME
-			   	sh "docker build -t train-details-system-api:mule -f Dockerfile ."
+			   	sh "docker build -t location-system-api:mule -f Dockerfile ."
                 	 
                         }
                }
@@ -52,7 +52,7 @@ pipeline {
       		steps {
         		script {
 			     	LAST_STARTED = env.STAGE_NAME
-          		    	sh ' docker run -itd -p 8082:8081 --name train-details-system-api train-details-system-api:mule'
+          		    	sh ' docker run -itd -p 8082:8081 --name location-system-api location-system-api:mule'
 				sh 'sleep 60'
        			}
 		}
@@ -63,11 +63,11 @@ pipeline {
 			script {
 			   	LAST_STARTED = env.STAGE_NAME
 			   //	sh "mvn -f train-details-system-api/pom.xml -Dhttp.port=8083 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
-         sh "mvn -f train-details-system-api/pom.xml -Dhttp.port=8083 test"
+         sh "mvn -f location-system-api/pom.xml -Dhttp.port=8083 test"
 			}		
         	}    
      }
-     stage('Functional Testing'){
+    /* stage('Functional Testing'){
         	steps {
 			script {
 				LAST_STARTED = env.STAGE_NAME
@@ -76,7 +76,7 @@ pipeline {
 			}
         		
              	}   
-     }
+     }*/
 	
 	/*  stage ('Jmeter Testing'){
 	    steps{
