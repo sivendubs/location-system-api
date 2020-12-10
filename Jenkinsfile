@@ -6,7 +6,7 @@ pipeline {
 	    
     }
    stages {
-   /*	stage('SonarQube Analysis'){
+   	stage('SonarQube Analysis'){
         	steps {
                 	withSonarQubeEnv('Sonarqube') {
                     		sh "mvn -f locations-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
@@ -26,7 +26,7 @@ pipeline {
                 }
 	}
        
-	*/   
+  
       stage('Build') {
       		steps {
 	    		script {
@@ -41,8 +41,8 @@ pipeline {
     /*  stage('Build image') {
       		steps {
         		script {
-			      //    sh "docker stop apiops-anypoint-jenkins-sapi" 
-        		//   	sh "docker rm apiops-anypoint-jenkins-sapi"
+			      //    sh "docker stop location-system-api" 
+        		//   	sh "docker rm location-system-api"
 			   	LAST_STARTED = env.STAGE_NAME
 			   	sh "docker build -t location-system-api:mule -f Dockerfile ."
                 	 
