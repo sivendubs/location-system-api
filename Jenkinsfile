@@ -130,7 +130,7 @@ pipeline {
       		steps {
         		script {
 	  	        	LAST_STARTED = env.STAGE_NAME		
-          		    	sh 'docker rm -f locations-system-api'
+          		    	sh 'docker rm -f location-system-api'
         		}
       		}
     	}
