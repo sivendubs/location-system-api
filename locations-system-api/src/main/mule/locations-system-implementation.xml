@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+	<flow name="get-lat-lon-flow" doc:id="5a26c401-731f-4bcc-a21f-7244ba5208ec" >
+		<json-logger:logger doc:name="Logger" doc:id="4a50649b-e570-48b8-ae45-76dc405d83e7" config-ref="JSON_Logger_Config" message='#["starting get lat lon flow"]'>
+			<json-logger:content ><![CDATA[#[" "]]]></json-logger:content>
+		</json-logger:logger>
+		<set-variable value="#[attributes.queryParams.address]" doc:name="address" doc:id="17ac346f-636c-4da7-9268-127ef06e3f9d" variableName="address" />
+		<http:request method="GET" doc:name="/request to get the lat and lon of the city / postal code" doc:id="622ef330-ef4a-49f0-90ef-d7b09eb0be7f" config-ref="HTTP_Request_configuration_geoapify" path="${geoapify.basepath}" target="latNlon" targetValue='#[%dw 2.0
+output application/json
+---
+{
+    "lat" : payload.features.properties.lat[0],
+    "lon" : payload.features.properties.lon[0] 
+}]'>
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"filter" : Mule::p('geoapify.countrycode'),
+	"text" : vars.address,
+	"apiKey" : Mule::p('geoapify.apikey')
+}]]]></http:query-params>
+		</http:request>
+	</flow>
+	<flow name="get-train-station-list-flow" doc:id="8b3d7dc9-d55e-4161-8156-fa966258cd59" >
+		<json-logger:logger doc:name="Logger" doc:id="2bb05a38-c4c9-40af-9352-b869b07dcac2" config-ref="JSON_Logger_Config" message='#["starting train station list flow "]'>
+			<json-logger:content ><![CDATA[#[" "]]]></json-logger:content>
+		</json-logger:logger>
+		<flow-ref doc:name="Flow Reference" doc:id="387d4209-7ecf-418f-8b91-f51e91d5b5c1" name="get-lat-lon-flow" />
+		<logger level="INFO" doc:name="Logger" doc:id="efa18ffd-8b80-43f3-9d50-fcd03d10541d" message="--- Get the lat and long from the geocode api ---" />
+		<json-logger:logger doc:name="Logger" doc:id="67a61711-2bcf-478a-8489-00fb85b56bd5" config-ref="JSON_Logger_Config" message='#["--- Get the lat and long from the geocode api ---"]'>
+			<json-logger:content ><![CDATA[#[" "]]]></json-logger:content>
+		</json-logger:logger>
+		<set-variable value='#["proximity:" ++ vars.latNlon.lon ++ "," ++ vars.latNlon.lat as String]' doc:name="proxmity" doc:id="f9f3454c-6338-48d5-9110-ea03770e6764" variableName="proxmity" />
+		<set-variable value='#["circle:" ++ vars.latNlon.lon ++ "," ++ vars.latNlon.lat  ++ ",5000"  as String]' doc:name="radius" doc:id="c61c614c-32e0-44fa-8019-726f02bbbdac" variableName="radius" />
+		<http:request method="GET" doc:name="get Nearby train-station list" doc:id="0865141c-bd5c-4f50-93d2-303f75a4af30" path="${geoapify.placesBasePath}" config-ref="HTTP_Request_configuration_geoapify">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"filter" : vars.radius,
+	"limit" : Mule::p('geoapify.limit'),
+	"apiKey" : Mule::p('geoapify.apikey'),
+	"categories" : Mule::p('geoapify.categories'),
+	"bias" : vars.proxmity
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="Filter results" doc:id="860399a5-34e0-4245-984d-2da9c1971a8c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+(payload.features map (item, index) -> {
+    "stationName" : if(((item.properties.name default " ") contains "Station") and (not ((item.properties.name default " ") contains "Bus")) and (not ((item.properties.name default " ") contains "Coach"))) (item.properties.name) else null,
+    "postCode" : item.properties.postcode,
+    "lat" : item.properties.lat,
+    "lon" : item.properties.lon,
+    "city" : item.properties.city
+ }) filter ($.stationName != null)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="1d983ce3-64b5-4154-b0d8-9227b7dc4bca" message="get-train-station-list-flow completed" />
+	</flow>
+	<flow name="get-attractions-spots-flow" doc:id="d6d8ba71-9376-4696-b3c7-3658130e9009" >
+		<json-logger:logger doc:name="Logger" doc:id="d780bf1c-ab9f-414e-9d38-ae9dda341222" config-ref="JSON_Logger_Config" message='#["--- start  get-attractions-spots-flow  flow -- "]'>
+			<json-logger:content ><![CDATA[#[""]]]></json-logger:content>
+		</json-logger:logger>
+		<flow-ref doc:name="Flow Reference" doc:id="297f2c86-0dbe-4738-8d53-8c6503493a98" name="get-lat-lon-flow"/>
+		<set-variable value='#[{
+	"filter" : "circle:" ++ vars.latNlon.lon ++ "," ++ vars.latNlon.lat,
+	"bias" : "proximity:" ++ vars.latNlon.lon ++ "," ++ vars.latNlon.lat 
+	
+}]' doc:name="/setting up parameters for the request" doc:id="b9c48f65-ec3c-4e36-bae3-c25ab80f851a" variableName="data" />
+		<json-logger:logger doc:name="Logger" doc:id="d0cdaf9d-e792-4657-b6b1-b53d27afd222" config-ref="JSON_Logger_Config" message='#["get nearby restaurants and tourist spots"]'>
+			<json-logger:content ><![CDATA[#[" "]]]></json-logger:content>
+		</json-logger:logger>
+		<http:request method="GET" doc:name="/req to get the nearby restaurants, supermarkets and tourist places" doc:id="393a787f-667d-4035-96ef-15e4e6e57055" config-ref="HTTP_Request_configuration_geoapify" path="${geoapify.placesBasePath}">
+			<http:query-params><![CDATA[#[output application/java
+---
+{
+	"filter" : vars.data.filter ++ "," ++ "5000",
+	"limit" : Mule::p('geoapify.limit'),
+	"apiKey" : Mule::p('geoapify.apikey'),
+	"categories" : Mule::p('geoapify.spotsCategories'),
+	"bias" : vars.data.bias
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="/list of restaurants, markets and tourist spots" doc:id="9be4b649-0985-4f42-9b13-0dc924482838" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+(payload.features map ((item, index) -> if(item.properties.categories contains "catering") ( ("type" : "restaurant") ++ ("name" : item.properties.name) ++ ("address" : item.properties.address_line2) ++ ("postcode" : item.properties.postcode) ++ ("distance" : item.properties.distance ++ "m") )
+else if (item.properties.categories contains "tourism") ( ("type" : "tourism") ++ ("name" : item.properties.name) ++ ("address" : item.properties.address_line2) ++ ("postcode" : item.properties.postcode) ++ ("distance" : item.properties.distance ++ "m") )
+else if (item.properties.categories contains "commercial") ( ("type" : "supermarket") ++ ("name" : item.properties.name) ++ ("address" : item.properties.address_line2) ++ ("postcode" : item.properties.postcode) ++ ("distance" : item.properties.distance ++ "m") )
+else (" ") ) ) groupBy ((item, index) -> item.'type')]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="23eff660-e5f4-4bd2-ba33-2e4cccf7da68" message="--- get-attractions-spots-flow completed ---"/>
+	</flow>
+	<flow name="get-postalcodes-flow" doc:id="b912b9c2-622b-436f-b33f-58241641fe35" >
+		<json-logger:logger doc:name="Logger" doc:id="01807822-fee6-480f-b768-3490d894c0e7" config-ref="JSON_Logger_Config" message='#["--- start  get-postalcodes-flow  flow -- "]' >
+			<json-logger:content ><![CDATA[#[""]]]></json-logger:content>
+		</json-logger:logger>
+		<flow-ref doc:name="Flow Reference" doc:id="3b85ede3-318d-43c4-926e-efdc75a79dc6" name="get-lat-lon-flow" />
+		<set-variable value='#[{
+	"filter" : "circle:" ++ vars.latNlon.lon ++ "," ++ vars.latNlon.lat,
+	"bias" : "proximity:" ++ vars.latNlon.lon ++ "," ++ vars.latNlon.lat 
+	
+}]' doc:name="/setting up parameters for the request" doc:id="59795b50-7d89-4021-a495-a18a2c3951c1" variableName="data" />
+		<json-logger:logger doc:name="Logger" doc:id="0aeb01bb-3b26-47f8-b7a1-dc9272fd0cb8" config-ref="JSON_Logger_Config" message='#["get nearby postalcodes"]' >
+			<json-logger:content ><![CDATA[#[" "]]]></json-logger:content>
+		</json-logger:logger>
+		<http:request method="GET" doc:name="/req to get the list of postal codes" doc:id="cf285c8c-7821-4364-a700-8ac1d67db994" config-ref="HTTP_Request_configuration_geoapify" path="${geoapify.placesBasePath}" >
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"filter" : vars.data.filter ++ "," ++ "5000",
+	"limit" : Mule::p('geoapify.limit'),
+	"apiKey" : Mule::p('geoapify.apikey'),
+	"categories" : Mule::p('geoapify.postalcodeCategories'),
+	"bias" : vars.data.bias
+}]]]></http:query-params>
+		</http:request>
+		<ee:transform doc:name="/list of nearby postcodes" doc:id="3ed8ed09-dd5e-4497-b035-4b7611a72596" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.features.properties.postcode distinctBy ($)]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

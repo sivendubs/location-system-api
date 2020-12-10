@@ -1,0 +1,12 @@
+http:
+  port: "8081"
+  
+geoapify:
+  host: "api.geoapify.com"
+  basepath: "/v1/geocode/search"
+  apikey: "ea2a1e3fc4cf4e5fb8077037fa70ff33"
+  countrycode: "countrycode:gb"
+  categories: "building.transportation"
+  limit: "20"
+  postalcodeCategories: "building.transportation,commercial.marketplace,commercial.shopping_mall,commercial.stationery"
+   

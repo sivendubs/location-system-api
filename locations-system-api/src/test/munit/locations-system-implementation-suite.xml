@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="locations-system-implementation-suite.xml" />
+	<munit:test name="get-attractions-spots-flow-test" doc:id="12ab3042-aa72-4182-9c68-2188525ae283" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock /req to get the nearby restaurants, supermarkets and tourist places" doc:id="fdc0c47d-10d1-426a-ac2d-296ac775d86d" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="393a787f-667d-4035-96ef-15e4e6e57055" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getattractionsspotsflowtest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getattractionsspotsflowtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getattractionsspotsflowtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://getattractionsspotsflowtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://getattractionsspotsflowtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="data" value="#[output application/json --- readUrl('classpath://getattractionsspotsflowtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="b8834c84-a64a-4f94-b57b-6dfe53eb0d8f" >
+				<munit:payload value="#[readUrl('classpath://getattractionsspotsflowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getattractionsspotsflowtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getattractionsspotsflowtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-attractions-spots-flow" doc:id="f4843a8a-386a-4d74-b586-8d8a87810188" name="get-attractions-spots-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="0cbccac1-abdc-4d17-925c-96c06de57af6" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getattractionsspotsflowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get-lat-lon-flow-test" doc:id="4547111c-b634-46d6-a770-713d1bf225bc" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Request" doc:id="b673f578-8bad-4bcd-bf0c-b6f7821358bc" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="622ef330-ef4a-49f0-90ef-d7b09eb0be7f" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getlatlonflowtest\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getlatlonflowtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getlatlonflowtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://getlatlonflowtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://getlatlonflowtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="e3bb60b2-7581-4eb6-a0d9-06a7a944e17e" >
+				<munit:payload value="#[readUrl('classpath://getlatlonflowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getlatlonflowtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getlatlonflowtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-lat-lon-flow" doc:id="639006b4-f21b-435d-8fa8-308091f02f74" name="get-lat-lon-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="4c712161-2858-4ca2-8db9-bb02bf25fdb2" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getlatlonflowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get-train-station-list-flow-test" doc:id="f3e5dc63-4976-48b1-a5bd-f6d4ed2a3d55" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock get Nearby train-station list" doc:id="f3292366-6ac8-4810-864d-1f492e4a7a01" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="0865141c-bd5c-4f50-93d2-303f75a4af30" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://gettrainstationlistflowtest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://gettrainstationlistflowtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://gettrainstationlistflowtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://gettrainstationlistflowtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://gettrainstationlistflowtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="proxmity" value="#[output application/json --- readUrl('classpath://gettrainstationlistflowtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="radius" value="#[output application/json --- readUrl('classpath://gettrainstationlistflowtest\mock_variable_4.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock Flow Reference" doc:id="fb0882c0-024f-41b3-afc9-18f0422a976e" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="387d4209-7ecf-418f-8b91-f51e91d5b5c1" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://gettrainstationlistflowtest\mock_payload1.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://gettrainstationlistflowtest\mock_attributes1.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://gettrainstationlistflowtest\mock_variable_5.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://gettrainstationlistflowtest\mock_variable_6.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://gettrainstationlistflowtest\mock_variable_7.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="3058c17a-1ea7-4935-b1db-dae83bba35b9" >
+				<munit:payload value="#[readUrl('classpath://gettrainstationlistflowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://gettrainstationlistflowtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://gettrainstationlistflowtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-train-station-list-flow" doc:id="83d32f87-037e-4833-ac6d-63dffa54e1db" name="get-train-station-list-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="b016eab9-feb4-48e5-ac7c-94a70e59a1c0" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import gettrainstationlistflowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get-postalcodes-flow-test" doc:id="c4fcc6b7-a357-429a-81bc-6c49d6d076a4" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Flow Reference" doc:id="efca6274-3a0b-4fa6-9e65-1192f1bc552a" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="3b85ede3-318d-43c4-926e-efdc75a79dc6" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://getpostalcodesflowtest\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getpostalcodesflowtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getpostalcodesflowtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://getpostalcodesflowtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://getpostalcodesflowtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit-tools:mock-when doc:name="Mock /req to get the nearby restaurants, supermarkets and tourist places" doc:id="18b83af2-48a4-4d73-b2e5-45e3ef513548" processor="http:request">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="cf285c8c-7821-4364-a700-8ac1d67db994" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getpostalcodesflowtest\mock_payload1.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getpostalcodesflowtest\mock_attributes1.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getpostalcodesflowtest\mock_variable_3.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://getpostalcodesflowtest\mock_variable_4.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://getpostalcodesflowtest\mock_variable_5.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="data" value="#[output application/json --- readUrl('classpath://getpostalcodesflowtest\mock_variable_6.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="e127b490-5c62-427f-ad78-2b33f65b7d7d" >
+				<munit:payload value="#[readUrl('classpath://getpostalcodesflowtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getpostalcodesflowtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getpostalcodesflowtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get-postalcodes-flow" doc:id="b9f9a2a1-ac09-4116-922d-af86f1e3a077" name="get-postalcodes-flow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="94212f68-2105-426e-a786-d9fcb6cf2065" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getpostalcodesflowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>

@@ -1,0 +1,16 @@
+http:
+  port: "8081"
+  
+geoapify:
+  host: "api.geoapify.com"
+  basepath: "api/v1/geocode/search"
+  apikey: "ea2a1e3fc4cf4e5fb8077037fa70ff33"
+  countrycode: "countrycode:gb"
+  categories: "building.transportation"
+  spotsCategories : "catering.restaurant,tourism.attraction,commercial.supermarket"
+  limit: "20"
+  postalcodeCategories: "building.transportation,commercial.marketplace,commercial.shopping_mall,commercial.stationery"
+  radius : "5000" 
+  placesBasePath : "/api/v2/places"
+cloudhub:
+  host: "backend-mock-ext-api.us-e2.cloudhub.io"

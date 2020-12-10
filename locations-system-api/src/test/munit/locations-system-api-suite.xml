@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="locations-system-api-suite.xml" />
+	<munit:test name="get:\locations\stations:locations-system-api-config-test" doc:id="caf589e3-b74d-4494-b245-bd5762a39be9" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Flow Reference" doc:id="58232f32-3422-4657-9aeb-63346fa9ed10" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="4e06232b-7548-4bb3-86a4-8f1d61518f49" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="proxmity" value="#[output application/json --- readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="radius" value="#[output application/json --- readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\mock_variable_4.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="d83ed344-f39f-46d0-948c-311e5ac8eab7" >
+				<munit:payload value="#[readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getlocationsstationslocationssystemapiconfigtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\locations\stations:locations-system-api-config" doc:id="6b0af59a-08a3-4869-bc6c-09ccce517ffb" name="get:\locations\stations:locations-system-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="91fb57b7-9251-4034-880a-2f9923fe981a" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getlocationsstationslocationssystemapiconfigtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get:\locations\attractionspots:locations-system-api-config-test" doc:id="5380c94b-7127-435f-a747-1d6d32277033" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Flow Reference" doc:id="76c82487-d991-44e3-88b4-d7e869a9da50" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="d03819b9-fe9c-41e7-8b91-483bdd250af9" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="data" value="#[output application/json --- readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="a45d8ecc-8241-47a1-9b49-07062de38d0a" >
+				<munit:payload value="#[readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getlocationsattractionspotslocationssystemapiconfigtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\locations\attractionspots:locations-system-api-config" doc:id="28fa7a0d-ec7b-4893-bce7-57dacfae0a0d" name="get:\locations\attractionspots:locations-system-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="918a94db-5834-4b69-b649-bbc8d7c05f86" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getlocationsattractionspotslocationssystemapiconfigtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-suiteTest" doc:id="83b02563-8dc7-4bb5-9efd-e938d862d199" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="dc1396d7-bf5d-4548-ab1c-a8f8d72a08d9" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="locations-system-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://locationssystemapiconsoletest\set-event_payload.dwl')]" />
+					<munit-tools:attributes value="#[{'queryParams' : {'address' : 'London'}}]" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="fd2dce39-3ec6-47b6-b630-8297d2e83be1" >
+				<munit:payload value="#[readUrl('classpath://locationssystemapiconsoletest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[{'queryParams' : {'address' : 'London'}}]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="a7f42330-2f0a-40f0-8f7a-fbfa2e0f18b5" name="locations-system-api-main" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="54fd2b5b-afd8-4cb3-89b8-a0a8f9caec3e" message="The payload does not match" >
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import locationssystemapiconsoletest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-console-test" doc:id="ffc542a1-ada6-48fc-8edc-3f9343a90903" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock APIkit Console" doc:id="6b94fdfc-9230-4a4c-b44b-fee9759d04bd" processor="apikit:console">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="dc5e56ea-54e1-4b8f-96bb-96c2b35c1a72" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[readUrl('classpath://locationssystemapiconsoletest\mock_payload.dwl')]" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://locationssystemapiconsoletest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://locationssystemapiconsoletest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="httpStatus" value="#[readUrl('classpath://locationssystemapiconsoletest\mock_variable_1.dwl')]" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="ac68ca0f-9c06-42f4-9100-9f7eb1f3268b" >
+				<munit:payload value="#[readUrl('classpath://locationssystemapiconsoletest\set-event_payload1.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://locationssystemapiconsoletest\set-event_attributes1.dwl')]" />
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="192e6cfe-2439-41a5-a719-efa96abcc67b" name="locations-system-api-console"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="2a67d544-3325-40e5-b5f4-b3ae4b698138" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import locationssystemapiconsoletest::assert_expression_payload1
+---
+assert_expression_payload1::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-suiteTest1" doc:id="911f77de-daa8-446a-b898-72d26fce5e07" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="a91e8443-0abc-49e9-aaf3-509e660ee010" processor="apikit:router">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="locations-system-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:BAD_REQUEST" />
+				</munit-tools:then-return>
+				
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<try doc:name="Try" doc:id="65a81b44-cc53-4295-8bb8-c45ef9c7a6c2" >
+				<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="7c049dec-33b1-4d22-b7fd-53beade18c8a" name="locations-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="b8581d0c-5edd-473c-811a-d1e0ad98ee77" >
+						<logger level="INFO" doc:name="Logger" doc:id="dbf25e1d-ba01-4bfb-8cb3-a9507179ac6b" message='#[" "]'/>
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="c0e7d796-fbd3-451f-9c29-f02536714856" actual="#[payload]" expected='#[{message: "Bad request"}]' />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-suiteTest2" doc:id="a7837e4a-6cb3-470e-b1d1-e65427869ec5" >
+		<munit:behavior>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="d4b99c8c-46e6-4d62-ade0-706da29e5b36" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="locations-system-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_FOUND" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="8e5f5ccc-728b-486d-81d5-324adc6c8e83" >
+				<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="4c5bd624-5b1c-4ab4-81d9-2884406fb362" name="locations-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0a3b8556-84e1-492a-910a-766edb1bd0c8" >
+						<logger level="INFO" doc:name="Logger" doc:id="5fe9ce7d-0e10-4613-a685-64c00fd5ec67" message='#[" "]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="ddb72762-51f5-4b8f-bd2c-5198d4ade54a" actual="#[payload]" expected='#[{message: "Resource not found"}]' />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-suiteTest3" doc:id="1a78c7ad-d641-4122-b522-2101bb388838" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="0935e71f-cbb7-4669-ac51-a45a03f4e8b1" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="locations-system-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:METHOD_NOT_ALLOWED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="0c7cd1e0-f177-483e-b55e-c59f911a058d" >
+				<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="313ab942-2465-4ee8-a0f4-eff221c014d5" name="locations-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="558e79a9-e980-48d8-b4b5-e16162a3cd1b" >
+						<logger level="INFO" doc:name="Logger" doc:id="6ef07d78-1978-4965-9816-c8c3693aa016" message='#[" "]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="cae8dbb7-c927-4d01-af92-84e256ea5181" actual="#[payload]" expected='#[{message: "Method not allowed"}]' />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-suiteTest4" doc:id="683d0313-11fa-41cc-b403-bb4c25898cc3" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="bd5b2f85-5e81-4715-a5d4-662295958ff4" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="locations-system-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_ACCEPTABLE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="6353028b-849d-402d-909a-ffe5e7400e9d" >
+				<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="5ae12b92-b713-40c1-ba86-c58171329688" name="locations-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="2ebe5f45-3b0a-4161-a7a4-d06c4f45aefd" >
+						<logger level="INFO" doc:name="Logger" doc:id="6ef3b57e-eda2-4443-bd47-b7ce4008ce97" message='#[" "]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="b701f1f2-5349-44dd-84da-1044ea508f14" actual="#[payload]" expected='#[{message: "Not acceptable"}]' />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-suiteTest5" doc:id="bfb1e159-3c78-4576-bfed-ca7de01fa22b" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="204c3c93-0e8b-4f7a-98b0-e7bc70271760" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="locations-system-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:UNSUPPORTED_MEDIA_TYPE" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="4c2fc4d1-c98a-403f-a9c1-ef781ff94f32" >
+				<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="adc7910c-a039-4819-a19c-284e73d3b8c7" name="locations-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="d6c5ef3c-9fd4-49d5-a9f4-0c8ddd894084" >
+						<logger level="INFO" doc:name="Logger" doc:id="5b1e1234-d362-43a3-959c-755dd80090fc" message='#[" "]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="96045f0f-de36-4384-8e16-d56f75456fd1" actual="#[payload]" expected='#[{message: "Unsupported media type"}]' />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="locations-system-api-suiteTest6" doc:id="127bc913-bf45-4b0c-ab84-c2ec001349ed" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="3f95ea6a-d5b9-4691-901c-c12032a46545" processor="apikit:router" >
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="locations-system-api-config" attributeName="config-ref" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:error typeId="APIKIT:NOT_IMPLEMENTED" />
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution>
+			<try doc:name="Try" doc:id="9e9b4600-8d20-4dd3-9b0a-d3c13ea48ba9" >
+				<flow-ref doc:name="Flow-ref to locations-system-api-console" doc:id="cb631b33-642c-4c45-811d-fbd305d24b42" name="locations-system-api-main" />
+				<error-handler >
+					<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0a5c45b8-a7a6-4d4b-8a58-244887922289" >
+						<logger level="INFO" doc:name="Logger" doc:id="8cbde432-ce5d-43b4-88d1-26209958abbe" message='#[" "]' />
+					</on-error-continue>
+				</error-handler>
+			</try>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-equals doc:name="Assert equals" doc:id="d3c4f6a9-940a-4102-ac33-c19d0f7f0977" actual="#[payload]" expected='#[{message: "Not Implemented"}]' />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="get:\locations\postalCodes:locations-system-api-config-test" doc:id="44af89d1-1a11-41dd-b174-37f9abc51a3b" >
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock Flow Reference" doc:id="c70794e7-d662-4236-a77a-646806f2d818" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="fdf1bba7-c063-4c11-8666-7340560e39c4" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+				<munit-tools:then-return >
+					<munit-tools:payload value="#[output application/json --- readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\mock_payload.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					<munit-tools:attributes value="#[readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\mock_attributes.dwl')]" />
+					<munit-tools:variables >
+						<munit-tools:variable key="outboundHeaders" value="#[readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\mock_variable_.dwl')]" />
+						<munit-tools:variable key="address" value="#[output application/java --- readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\mock_variable_1.dwl')]" mediaType="application/java" encoding="UTF-8" />
+						<munit-tools:variable key="latNlon" value="#[output application/json --- readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\mock_variable_2.dwl')]" mediaType="application/json" encoding="UTF-8" />
+						<munit-tools:variable key="data" value="#[output application/json --- readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\mock_variable_3.dwl')]" mediaType="application/json" encoding="UTF-8" />
+					</munit-tools:variables>
+				</munit-tools:then-return>
+			</munit-tools:mock-when>
+			<munit:set-event doc:name="Set Input" doc:id="ad5bd389-d6d5-4491-8aaa-b80e6051f959" >
+				<munit:payload value="#[readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://getlocationspostalCodeslocationssystemapiconfigtest\set-event_variable_.dwl')]" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to get:\locations\postalCodes:locations-system-api-config" doc:id="4600b04b-8f8a-492f-88b0-fccc0ff12810" name="get:\locations\postalCodes:locations-system-api-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="df1f6864-2bc0-4df5-9e42-dfba79e9b5ac" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import getlocationspostalCodeslocationssystemapiconfigtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
