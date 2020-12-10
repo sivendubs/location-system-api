@@ -9,11 +9,11 @@ pipeline {
    	stage('SonarQube Analysis'){
         	steps {
                 	withSonarQubeEnv('Sonarqube') {
-                    		sh "mvn -f location-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
+                    		sh "mvn -f locations-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
                     		script {
 		    			LAST_STARTED = env.STAGE_NAME
                     			timeout(time: 1, unit: 'HOURS') { 
-                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api > status.json"
+                        			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:locations-system-api > status.json"
                         			def json = readJSON file:'status.json'
                         			echo "${json.projectStatus}"
                         			if ("${json.projectStatus.status}" != "OK") {
@@ -31,7 +31,7 @@ pipeline {
       		steps {
 	    		script {
 				LAST_STARTED = env.STAGE_NAME
-				sh "mvn -f location-system-api/pom.xml  clean install  -DskipTests"     	
+				sh "mvn -f locations-system-api/pom.xml  clean install  -DskipTests"     	
 		    	} 
             	}    
       } 
@@ -62,8 +62,8 @@ pipeline {
         	steps {
 			script {
 			   	LAST_STARTED = env.STAGE_NAME
-			   //	sh "mvn -f train-details-system-api/pom.xml -Dhttp.port=8083 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
-         sh "mvn -f location-system-api/pom.xml -Dhttp.port=8083 test"
+			   	sh "mvn -f locations-system-api/pom.xml -Dhttp.port=8086 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
+                               // sh "mvn -f location-system-api/pom.xml -Dhttp.port=8083 test"
 			}		
         	}    
      }
@@ -94,8 +94,8 @@ pipeline {
 			script {
 		    		LAST_STARTED = env.STAGE_NAME
 		    		configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
-                    			sh "mvn -f train-details-system-api/pom.xml -s $settings archetype:create-from-project"
-		    			sh "mvn -f train-details-system-api/target/generated-sources/archetype/pom.xml -s $settings clean deploy -DaltSnapshotDeploymentRepository=nexus-snapshots::http://104.248.169.167:8081/repository/maven-snapshots/"
+                    			sh "mvn -f locations-system-api/pom.xml -s $settings archetype:create-from-project"
+		    			sh "mvn -f locations-system-api/target/generated-sources/archetype/pom.xml -s $settings clean deploy -DaltSnapshotDeploymentRepository=nexus-snapshots::http://104.248.169.167:8081/repository/maven-snapshots/"
                   		} 
 			}
               }   
@@ -105,7 +105,7 @@ pipeline {
         	steps {
 			script {
 				LAST_STARTED = env.STAGE_NAME
-				sh 'mvn -f train-details-system-api/pom.xml package deploy -DmuleDeploy -DskipTests -Danypoint.username=joji6 -Danypoint.password=Canadavisa25@ -DapplicationName=train-details-sapi -Dcloudhub.region=us-east-2'
+				sh 'mvn -f locations-system-api/pom.xml package deploy -DmuleDeploy -DskipTests -Danypoint.username=joji6 -Danypoint.password=Canadavisa25@ -DapplicationName=train-details-sapi -Dcloudhub.region=us-east-2'
 			}
              	}
     }
@@ -124,7 +124,7 @@ pipeline {
       		steps {
         		script {
 	  	        	LAST_STARTED = env.STAGE_NAME		
-          		    	sh 'docker rm -f train-details-system-api'
+          		    	sh 'docker rm -f locations-system-api'
         		}
       		}
     	}*/
