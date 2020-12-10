@@ -38,7 +38,7 @@ pipeline {
             	}    
       } 
 	   
-    /*  stage('Build image') {
+      stage('Build image') {
       		steps {
         		script {
 			      //    sh "docker stop location-system-api" 
@@ -58,20 +58,20 @@ pipeline {
 				sh 'sleep 60'
        			}
 		}
-     }*/
+     }
    	
      stage ('Munit Test'){
         	steps {
 			script {
 				configFileProvider([configFile(fileId: '706c4f0b-71dc-46f3-9542-b959e2d26ce7', variable: 'settings')]){
 			   	LAST_STARTED = env.STAGE_NAME
-			   	sh "mvn -f locations-system-api/pom.xml -s $settings -Dhttp.port=8086 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
+			   	sh "mvn -f locations-system-api/pom.xml -s $settings -Dkey=mule -Dhttp.port=8086 -Dmaven.repo.local=/var/lib/jenkins/.m2/repository test"
                                // sh "mvn -f location-system-api/pom.xml -Dhttp.port=8083 test"
 				}	
 			}		
         	}    
      }
-    /* stage('Functional Testing'){
+    stage('Functional Testing'){
         	steps {
 			script {
 				LAST_STARTED = env.STAGE_NAME
@@ -80,7 +80,7 @@ pipeline {
 			}
         		
              	}   
-     }*/
+     }
 	
 	/*  stage ('Jmeter Testing'){
 	    steps{
