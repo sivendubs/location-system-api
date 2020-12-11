@@ -53,7 +53,7 @@ pipeline {
       		steps {
         		script {
 			     	LAST_STARTED = env.STAGE_NAME
-          		    	sh 'docker run -itd -p 8082:8081 --name location-system-api location-system-api:mule'
+          		    	sh 'docker run -itd -p 8084:8081 --name location-system-api location-system-api:mule'
 				sh 'sleep 60'
        			}
 		}
