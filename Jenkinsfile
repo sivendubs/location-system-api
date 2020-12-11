@@ -40,8 +40,8 @@ pipeline {
       stage('Build image') {
       		steps {
         		script {
-			       sh "docker stop location-system-api" 
-        	         	sh "docker rm location-system-api"
+		//	       sh "docker stop location-system-api" 
+        	 //        	sh "docker rm location-system-api"
 			   	LAST_STARTED = env.STAGE_NAME
 				"docker build -t location-system-api:mule -f Dockerfile ."
                 	 
