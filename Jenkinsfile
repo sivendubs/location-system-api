@@ -174,6 +174,10 @@ pipeline {
 				emailext(subject: '$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!', body: "$emailbody", attachLog: true, from: "${readProps['email.from']}", to: "${readProps['email.to']}")
                     }
             
-        }
-    }*/
+        }*/
+   
+	cleanup {
+		cleanWs()
+	}
+   }
 }
