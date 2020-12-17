@@ -7,7 +7,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
-	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="7968582b-e061-4cdb-95e6-406f597d57a6" file="location.system.api.dev.yaml" key="mule" >
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="7968582b-e061-4cdb-95e6-406f597d57a6" file="location.system.api.dev.yaml" key="${key}" >
 		<secure-properties:encrypt algorithm="Blowfish" />
 	</secure-properties:config>
 	<http:request-config name="HTTP_Request_configuration_geoapify" doc:name="HTTP Request configuration" doc:id="05b80f55-f77f-4615-b8c8-855ffd4cafa9" >
