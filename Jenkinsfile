@@ -13,13 +13,12 @@ pipeline {
                 	    withSonarQubeEnv('Sonarqube') {
                     		sh "mvn -f location-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
 			    }
-			    timeout(time: 1, unit: 'HOURS') { 
+			/*    timeout(time: 1, unit: 'HOURS') { 
                     		def qg = waitForQualityGate()
              			if (qg.status != 'OK') {
-                 			error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              			}
-                    		/*script {
-		    			LAST_STARTED = env.STAGE_NAME
+                 			error "Pipeline aborted due to quality gate failure: ${qg.status}"*/
+              		//	}
+                    	
                     			timeout(time: 1, unit: 'HOURS') { 
                         			sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api > status.json"
                         			def json = readJSON file:'status.json'
@@ -27,7 +26,7 @@ pipeline {
                         			if ("${json.projectStatus.status}" != "OK") {
                             				currentBuild.result = 'FAILURE'
                            				error('Pipeline aborted due to quality gate failure.')
-                           			}*/
+                           			}
                         		
 						
                     
