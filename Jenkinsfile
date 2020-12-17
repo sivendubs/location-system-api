@@ -20,8 +20,8 @@ pipeline {
               		//	}
                     	
                     			timeout(time: 1, unit: 'HOURS') { 
-						final String response = sh(script: "curl -s -u admin:admin http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api", returnStdout: true).trim()
-						echo "${response}"
+						final String response = sh(script: "curl -s http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api", returnStdout: true).trim()
+						echo response
 						//sh "curl -u admin:admin -X GET -H 'Accept: application/json' http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api > status.json"
                         			//def json = readJSON file:'status.json'
                         			//echo "${json.projectStatus}"
