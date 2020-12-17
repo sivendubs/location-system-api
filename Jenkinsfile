@@ -13,12 +13,18 @@ pipeline {
                 	    withSonarQubeEnv('Sonarqube') {
                     		sh "mvn -f location-system-api/pom.xml sonar:sonar -Dsonar.sources=src/"
 			    }
+			}
+		}
+	}
 			/*    timeout(time: 1, unit: 'HOURS') { 
                     		def qg = waitForQualityGate()
              			if (qg.status != 'OK') {
                  			error "Pipeline aborted due to quality gate failure: ${qg.status}"*/
               		//	}
                     	
+				stage ("Quality Gate"){
+					steps {
+						script{
                     			timeout(time: 1, unit: 'HOURS') { 
 						final String response = " "
 						response = sh(script: "curl http://104.248.169.167:9000/api/qualitygates/project_status?projectKey=com.mycompany:location-system-api", returnStdout: true).trim()
@@ -32,11 +38,11 @@ pipeline {
                            			//}
                         		
 						
-                    
+					}
                     		}
                 	}
                 }
-	}
+	
        
   
    /*   stage('Build') {
