@@ -166,8 +166,8 @@ pipeline {
       		}
     	}*/
    }
- /*  post {
-        failure {
+  post {
+       /* failure {
 	    script {
 	    		emailbody = "Build Failed at $LAST_STARTED Stage. Please find the attached logs for more details."
           		readProps= readProperties file: 'cucumber-API-Framework/email.properties'
